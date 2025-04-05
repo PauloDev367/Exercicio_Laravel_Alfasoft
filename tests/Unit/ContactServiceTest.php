@@ -2,13 +2,14 @@
 
 namespace Tests\Unit;
 
+use Mockery;
 use Tests\TestCase;
+use App\Models\User;
 use App\Models\Contact;
 use App\Services\ContactService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Validation\ValidationException;
 use App\Http\Requests\UpdateContactRequest;
-use Mockery;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ContactServiceTest extends TestCase
 {
@@ -89,10 +90,13 @@ class ContactServiceTest extends TestCase
     /** @test */
     public function it_fails_to_create_contact_with_duplicate_email_or_contact()
     {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+    
         Contact::factory()->create($this->contactData());
-
+    
         $response = $this->postJson(route('contacts.store'), $this->contactData());
-
+    
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['email', 'contact']);
     }
