@@ -1,4 +1,4 @@
-<div style="overflow-x: scroll">
+<div class="overflow-x-scroll">
     <table class="table">
         <thead class="thead-dark">
             <tr>
