@@ -14,7 +14,7 @@
                             </a>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('contacts.update', $contact->id) }}" method="POST">
+                            <form action="{{ route('contacts.update', $contact->id) }}" id="update-form" method="POST">
                                 @csrf
                                 @method('PUT')
 
@@ -49,13 +49,18 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-sm btn-warning w-100 mb-2">
+                                    <button type="submit" class="btn btn-sm btn-warning w-100 mb-2" form="update-form">
                                         <i class="fa-solid fa-pen-to-square"></i> Update contact
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-danger w-100"
-                                        onclick="confirm('Tem certeza?') && this.closest('form').submit()">
-                                        <i class="fa-solid fa-trash"></i> Delete contact
-                                    </button>
+                                    <form action="{{ route('contacts.destroy', $contact->id) }}" id="delete-form"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-sm btn-danger w-100" form="delete-form"
+                                            onclick="confirm('Tem certeza?') && this.closest('form').submit()">
+                                            <i class="fa-solid fa-trash"></i> Delete contact
+                                        </button>
+                                    </form>
                                 </div>
                             </form>
 

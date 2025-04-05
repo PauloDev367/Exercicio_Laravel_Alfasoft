@@ -25,4 +25,11 @@ class ContactController extends Controller
         return redirect()->back()
             ->with('success', 'Contact updated successfully');
     }
+
+    public function destroy(int $id)
+    {
+        $this->service->destroy($id);
+        return redirect()->route('home')
+            ->with('success', 'Contact deleted successfully');
+    }
 }

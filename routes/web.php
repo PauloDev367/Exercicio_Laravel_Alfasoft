@@ -21,3 +21,4 @@ Route::get('/contacts/{id}', [HomeController::class, 'show'])->name('contacts.sh
 
 Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
 Route::put('/contacts/{id}', [ContactController::class, 'update'])->name('contacts.update');
+Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
