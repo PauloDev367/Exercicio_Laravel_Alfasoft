@@ -23,7 +23,7 @@
                             <a href="{{ route('contacts.show', $contact->id) }}" class="btn btn-sm btn-outline-warning">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
-                            <x-contacts-delete-form :contact="$contact" message="" classType="btn-outline-danger" />
+                            <x-home-delete-form :contact="$contact" message="" classType="btn-outline-danger"/>
                         </td>
                     @endif
                 </tr>

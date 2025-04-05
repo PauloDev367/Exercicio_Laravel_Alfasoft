@@ -31,6 +31,18 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    const homeDeleteButtons = document.querySelectorAll('.home-delete-forms');
+    homeDeleteButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+            if (confirm('Are you sure?')) {
+                showSubmitingFormElement();
+                const dataContactId = btn.getAttribute('data-contactId');
+                const deleteForm = document.getElementById(`delete-form-${dataContactId}`);
+                deleteForm.submit();
+            }
+        });
+    });
 });
 
 function showSubmitingFormElement() {
