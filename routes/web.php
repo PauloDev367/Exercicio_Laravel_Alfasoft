@@ -20,3 +20,4 @@ Route::get('/contacts/create', [HomeController::class, 'create'])->name('contact
 Route::get('/contacts/{id}', [HomeController::class, 'show'])->name('contacts.show');
 
 Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
+Route::put('/contacts/{id}', [ContactController::class, 'update'])->name('contacts.update');
