@@ -32,7 +32,7 @@ To run the application locally, follow these steps:
 
 4. **Configure your database** in the `.env` file and run migrations:  
    ```bash
-   php artisan migrate
+   php artisan migrate --seed
    ```
 
 5. **Serve the application**:  
