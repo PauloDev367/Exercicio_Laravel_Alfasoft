@@ -109,4 +109,38 @@ class ContactServiceTest extends TestCase
 
         $this->assertNotNull(Contact::withTrashed()->find($contact->id));
     }
+
+    /** @test */
+    public function it_updates_a_contact_with_valid_data()
+    {
+        $contact = \App\Models\Contact::factory()->create([
+            'name' => 'João Antigo',
+            'contact' => '123456789',
+            'email' => 'old@example.com',
+        ]);
+
+        $data = [
+            'name' => 'João Atualizado',
+            'contact' => '987654321',
+            'email' => 'new@example.com',
+        ];
+
+        $request = \Mockery::mock(\App\Http\Requests\UpdateContactRequest::class);
+        $request->shouldReceive('input')->with('name')->andReturn($data['name']);
+        $request->shouldReceive('input')->with('contact')->andReturn($data['contact']);
+        $request->shouldReceive('input')->with('email')->andReturn($data['email']);
+
+        $updated = $this->service->update($request, $contact->id);
+
+        $this->assertEquals($data['name'], $updated->name);
+        $this->assertEquals($data['contact'], $updated->contact);
+        $this->assertEquals($data['email'], $updated->email);
+
+        $this->assertDatabaseHas('contacts', [
+            'id' => $contact->id,
+            'name' => $data['name'],
+            'contact' => $data['contact'],
+            'email' => $data['email'],
+        ]);
+    }
 }
