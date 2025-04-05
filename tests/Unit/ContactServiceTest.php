@@ -93,4 +93,20 @@ class ContactServiceTest extends TestCase
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['contact', 'email']);
     }
+
+    /** @test */
+    public function it_soft_deletes_a_contact()
+    {
+        $contact = Contact::factory()->create();
+
+        $this->service->destroy($contact->id);
+
+        $this->assertSoftDeleted('contacts', [
+            'id' => $contact->id,
+        ]);
+
+        $this->assertNull(Contact::find($contact->id));
+
+        $this->assertNotNull(Contact::withTrashed()->find($contact->id));
+    }
 }
