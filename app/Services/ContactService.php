@@ -10,7 +10,7 @@ class ContactService
 {
     public function store(CreateContactRequest $request)
     {
-        $created = Contact::created($request->all());
+        $created = Contact::create($request->all());
         return $created;
     }
 
