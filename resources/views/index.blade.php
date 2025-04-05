@@ -6,7 +6,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h1>Contacts</h1>
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h1>Contacts</h1>
+                        <a href="{{ route('contacts.create') }}" class="btn btn-sm btn-info">
+                            <i class="fa-regular fa-square-plus"></i> Add new contact
+                        </a>
+                    </div>
 
                     <table class="table">
                         <thead class="thead-dark">
