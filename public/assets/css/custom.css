@@ -3,6 +3,9 @@ h1 {
     margin-bottom: 0;
 }
 
+.overflow-x-scroll {
+    overflow-x: scroll
+}
 
 /* SUBMITING FORM */
 #submiting-form {
