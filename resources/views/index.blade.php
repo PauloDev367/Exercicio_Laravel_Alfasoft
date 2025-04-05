@@ -14,6 +14,10 @@
                                 <a href="{{ route('contacts.create') }}" class="btn btn-sm btn-info">
                                     <i class="fa-regular fa-square-plus"></i> Add new contact
                                 </a>
+                            @else
+                                <a href="{{ route('login') }}" class="btn btn-sm btn-success">
+                                    <i class="fa-solid fa-right-to-bracket"></i> Login
+                                </a>
                             @endif
                         </div>
                         <div class="card-body">
@@ -21,7 +25,6 @@
                             <x-home-contacts-pagination :contacts="$contacts" />
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
