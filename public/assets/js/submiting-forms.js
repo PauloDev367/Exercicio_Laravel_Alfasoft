@@ -12,11 +12,23 @@ document.addEventListener('DOMContentLoaded', function () {
             showSubmitingFormElement();
         });
     }
-    
+
     const updateForm = document.getElementById('update-form');
     if (updateForm) {
         updateForm.addEventListener('submit', function (e) {
             showSubmitingFormElement();
+        });
+    }
+
+    const deleteButton = document.getElementById('delete-button');
+    const deleteForm = document.getElementById('delete-form');
+
+    if (deleteButton && deleteForm) {
+        deleteButton.addEventListener('click', function () {
+            if (confirm('Are you sure?')) {
+                showSubmitingFormElement();
+                deleteForm.submit();
+            }
         });
     }
 });

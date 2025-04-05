@@ -34,5 +34,5 @@
     <button type="submit" class="btn btn-sm btn-warning w-100 mb-2" form="update-form">
         <i class="fa-solid fa-pen-to-square"></i> Update contact
     </button>
-    <x-contacts-delete-form :contact="$contact" />
+    <x-contacts-delete-form :contact="$contact" message="Delete contact" classType="btn-danger" />
 </div>
