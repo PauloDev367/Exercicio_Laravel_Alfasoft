@@ -22,8 +22,17 @@ class HomeController extends Controller
     {
         return view('contacts.create');
     }
-    public function show()
+    public function show(int $id)
     {
-        return view('contacts.show');
+        $contact = $this->service->getOne($id);
+
+        if ($contact == null) {
+            return redirect()
+                ->route('home')
+                ->withErrors('Contact not found!');
+        }
+
+        return view('contacts.show')
+            ->with('contact', $contact);
     }
 }

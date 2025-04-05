@@ -6,7 +6,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
+                    <x-alert-messages />
                     <div class="card">
+
                         <div class="card-header d-flex align-items-center justify-content-between">
                             <h1>Contacts</h1>
                             <a href="{{ route('contacts.create') }}" class="btn btn-sm btn-info">

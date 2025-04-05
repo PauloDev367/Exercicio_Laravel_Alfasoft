@@ -8,7 +8,7 @@
                     <div class="card">
                         <div class="card-header d-flex align-items-center justify-content-between ">
                             <h1>Contact details</h1>
-                            <a href="{{route('home')}}" class="btn btn-sm btn-warning">
+                            <a href="{{ route('home') }}" class="btn btn-sm btn-warning">
                                 <i class="fa-solid fa-left-long"></i> Back to home
                             </a>
                         </div>
@@ -17,15 +17,18 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="name">Name:</label>
-                                    <input type="text" name="name" id="name" class="form-control" value="Complete Name">
+                                    <input type="text" name="name" id="name" class="form-control"
+                                        value="{{ $contact->name }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="email">E-mail:</label>
-                                    <input type="text" name="email" id="email" class="form-control" value="email@email.com">
+                                    <input type="text" name="email" id="email" class="form-control"
+                                        value="{{ $contact->email }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="contact">Contact:</label>
-                                    <input type="text" name="contact" id="contact" class="form-control" value="988888888">
+                                    <input type="text" name="contact" id="contact" class="form-control"
+                                        value="{{ $contact->contact }}">
                                 </div>
 
                                 <div class="form-group">
