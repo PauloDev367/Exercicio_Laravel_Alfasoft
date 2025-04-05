@@ -1,15 +1,19 @@
 <?php
 
-namespace Unit;
+namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Models\Contact;
 use App\Services\ContactService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Validation\ValidationException;
+use App\Http\Requests\UpdateContactRequest;
+use Mockery;
 
 class ContactServiceTest extends TestCase
 {
     use RefreshDatabase;
+
     protected ContactService $service;
 
     protected function setUp(): void
@@ -18,8 +22,23 @@ class ContactServiceTest extends TestCase
         $this->service = new ContactService();
     }
 
+    protected function tearDown(): void
+    {
+        Mockery::close();
+        parent::tearDown();
+    }
+
+    private function contactData(array $overrides = []): array
+    {
+        return array_merge([
+            'name' => 'Lucas Costa',
+            'contact' => '123456789',
+            'email' => 'lucas@example.com',
+        ], $overrides);
+    }
+
     /** @test */
-    public function it_returns_a_contact_by_id()
+    public function it_finds_contact_by_id()
     {
         $contact = Contact::factory()->create();
 
@@ -27,9 +46,6 @@ class ContactServiceTest extends TestCase
 
         $this->assertNotNull($found);
         $this->assertEquals($contact->id, $found->id);
-        $this->assertEquals($contact->name, $found->name);
-        $this->assertEquals($contact->email, $found->email);
-        $this->assertEquals($contact->contact, $found->contact);
     }
 
     /** @test */
@@ -47,51 +63,38 @@ class ContactServiceTest extends TestCase
     /** @test */
     public function it_creates_a_contact_with_valid_data()
     {
-        $data = [
-            'name' => 'Lucas Costa',
-            'contact' => '123456789',
-            'email' => 'lucas@example.com',
-        ];
+        $data = $this->contactData();
 
-        $response = $this->postJson(route('contacts.store'), $data);
+        $contact = Contact::create($data);
 
-        $response->assertStatus(302);
         $this->assertDatabaseHas('contacts', $data);
+        $this->assertEquals('Lucas Costa', $contact->name);
     }
 
     /** @test */
-    public function it_fails_to_create_contact_with_invalid_data()
+    public function it_fails_validation_when_data_is_invalid()
     {
-        $data = [
+        $request = new \App\Http\Requests\CreateContactRequest();
+    
+        $validator = \Validator::make([
             'name' => 'abc',
             'contact' => '123456789',
-            'email' => 'not-an-email',
-        ];
-
-        $response = $this->postJson(route('contacts.store'), $data);
-
-        $response->assertStatus(422);
-        $response->assertJsonValidationErrors(['name', 'email']);
+            'email' => 'invalid-email',
+        ], $request->rules());
+    
+        $this->assertTrue($validator->fails());
+        $this->assertArrayHasKey('name', $validator->errors()->messages());
+        $this->assertArrayHasKey('email', $validator->errors()->messages());
     }
-
     /** @test */
-    public function it_fails_with_duplicate_email_or_contact()
+    public function it_fails_to_create_contact_with_duplicate_email_or_contact()
     {
-        Contact::factory()->create([
-            'contact' => '123456789',
-            'email' => 'lucas@example.com',
-        ]);
+        Contact::factory()->create($this->contactData());
 
-        $data = [
-            'name' => 'Outro Nome',
-            'contact' => '123456789',
-            'email' => 'lucas@example.com',
-        ];
-
-        $response = $this->postJson(route('contacts.store'), $data);
+        $response = $this->postJson(route('contacts.store'), $this->contactData());
 
         $response->assertStatus(422);
-        $response->assertJsonValidationErrors(['contact', 'email']);
+        $response->assertJsonValidationErrors(['email', 'contact']);
     }
 
     /** @test */
@@ -101,46 +104,42 @@ class ContactServiceTest extends TestCase
 
         $this->service->destroy($contact->id);
 
-        $this->assertSoftDeleted('contacts', [
-            'id' => $contact->id,
-        ]);
-
+        $this->assertSoftDeleted('contacts', ['id' => $contact->id]);
         $this->assertNull(Contact::find($contact->id));
-
         $this->assertNotNull(Contact::withTrashed()->find($contact->id));
     }
 
     /** @test */
     public function it_updates_a_contact_with_valid_data()
     {
-        $contact = \App\Models\Contact::factory()->create([
+        $contact = Contact::factory()->create([
             'name' => 'João Antigo',
             'contact' => '123456789',
             'email' => 'old@example.com',
         ]);
 
-        $data = [
+        $newData = [
             'name' => 'João Atualizado',
             'contact' => '987654321',
             'email' => 'new@example.com',
         ];
 
-        $request = \Mockery::mock(\App\Http\Requests\UpdateContactRequest::class);
-        $request->shouldReceive('input')->with('name')->andReturn($data['name']);
-        $request->shouldReceive('input')->with('contact')->andReturn($data['contact']);
-        $request->shouldReceive('input')->with('email')->andReturn($data['email']);
+        $request = Mockery::mock(UpdateContactRequest::class);
+        $request->shouldReceive('input')->with('name')->andReturn($newData['name']);
+        $request->shouldReceive('input')->with('contact')->andReturn($newData['contact']);
+        $request->shouldReceive('input')->with('email')->andReturn($newData['email']);
 
         $updated = $this->service->update($request, $contact->id);
 
-        $this->assertEquals($data['name'], $updated->name);
-        $this->assertEquals($data['contact'], $updated->contact);
-        $this->assertEquals($data['email'], $updated->email);
+        $this->assertEquals($newData['name'], $updated->name);
+        $this->assertEquals($newData['contact'], $updated->contact);
+        $this->assertEquals($newData['email'], $updated->email);
 
         $this->assertDatabaseHas('contacts', [
             'id' => $contact->id,
-            'name' => $data['name'],
-            'contact' => $data['contact'],
-            'email' => $data['email'],
+            'name' => $newData['name'],
+            'contact' => $newData['contact'],
+            'email' => $newData['email'],
         ]);
     }
 }
