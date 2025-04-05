@@ -10,8 +10,7 @@ class ContactService
 {
     public function store(CreateContactRequest $request)
     {
-        $created = Contact::create($request->all());
-        return $created;
+        Contact::create($request->all());
     }
 
     public function getOne(int $id)
@@ -22,7 +21,8 @@ class ContactService
     public function getAll()
     {
         $perPage = 15;
-        return Contact::paginate($perPage);
+        return Contact::orderBy('id', 'DESC')
+            ->paginate($perPage);
     }
 
     public function destroy($id)

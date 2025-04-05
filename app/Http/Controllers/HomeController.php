@@ -18,10 +18,12 @@ class HomeController extends Controller
         return view('index')
             ->with('contacts', $contacts);
     }
+    
     public function create()
     {
         return view('contacts.create');
     }
+
     public function show(int $id)
     {
         $contact = $this->service->getOne($id);
