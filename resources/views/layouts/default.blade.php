@@ -21,6 +21,9 @@
 </head>
 
 <body>
+
+    <x-submiting-form />
+
     @if (auth()->user())
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="/">
@@ -48,6 +51,8 @@
     {{-- BOOTSRAP --}}
     <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
 
+    {{-- CUSTOM --}}
+    <script src="/assets/js/submiting-forms.js"></script>
 </body>
 
 </html>

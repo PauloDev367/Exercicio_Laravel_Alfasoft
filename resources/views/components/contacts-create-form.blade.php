@@ -1,4 +1,4 @@
-<form action="{{ route('contacts.store') }}" method="POST">
+<form action="{{ route('contacts.store') }}" id="create-contact-form" method="POST">
     @csrf
 
     <div class="form-group">

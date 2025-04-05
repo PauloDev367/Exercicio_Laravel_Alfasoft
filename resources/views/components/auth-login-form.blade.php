@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('login.submit') }}">
+<form method="POST" id="auth-login" action="{{ route('login.submit') }}">
     @csrf
 
     <div class="form-group">
