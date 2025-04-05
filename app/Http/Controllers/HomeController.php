@@ -14,4 +14,8 @@ class HomeController extends Controller
     {
         return view('contacts.create');
     }
+    public function show()
+    {
+        return view('contacts.show');
+    }
 }

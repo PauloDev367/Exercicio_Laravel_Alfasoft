@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/contacts/create', [HomeController::class, 'create'])->name('contacts.create');
+Route::get('/contacts/{id}', [HomeController::class, 'show'])->name('contacts.show');

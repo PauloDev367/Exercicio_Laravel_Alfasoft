@@ -12,7 +12,6 @@
                             <a href="{{ route('contacts.create') }}" class="btn btn-sm btn-info">
                                 <i class="fa-regular fa-square-plus"></i> Add new contact
                             </a>
-
                         </div>
                         <div class="card-body">
                             <table class="table">
@@ -32,9 +31,10 @@
                                         <td>988888888</td>
                                         <td>1</td>
                                         <td>
-                                            <button class="btn btn-sm btn-outline-warning">
+                                            <a href="{{ route('contacts.show', 1) }}"
+                                                class="btn btn-sm btn-outline-warning">
                                                 <i class="fa-solid fa-pen-to-square"></i>
-                                            </button>
+                                            </a>
                                             <button class="btn btn-sm btn-outline-danger">
                                                 <i class="fa-solid fa-trash"></i>
                                             </button>
