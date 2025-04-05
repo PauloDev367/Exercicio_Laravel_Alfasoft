@@ -8,7 +8,7 @@
                     <x-alert-messages />
 
                     <div class="card">
-                        <div class="card-header d-flex align-items-center justify-content-between ">
+                        <div class="card-header d-flex align-items-center justify-content-between">
                             <h1>Add new contact</h1>
                             <a href="{{ route('home') }}" class="btn btn-sm btn-warning">
                                 <i class="fa-solid fa-left-long"></i> Back to home
