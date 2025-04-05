@@ -25,7 +25,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Email ou senha inválidos.',
+            'email' => 'Email or password are invalid.',
         ])->onlyInput('email');
     }
 

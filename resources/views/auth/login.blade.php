@@ -14,23 +14,7 @@
                             </a>
                         </div>
                         <div class="card-body">
-                            <form method="POST" action="{{ route('login.submit') }}">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="email">Email:</label>
-                                    <input type="email" class="form-control" name="email" value="{{ old('email') }}"
-                                        required autofocus>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="password">Passwrod:</label>
-                                    <input type="password" class="form-control" name="password" required>
-                                </div>
-
-                                <button type="submit" class="btn btn-success btn-block">
-                                    <i class="fa-solid fa-right-to-bracket"></i> Login
-                                </button>
-                            </form>
+                            <x-auth-login-form />
                         </div>
                     </div>
                 </div>
