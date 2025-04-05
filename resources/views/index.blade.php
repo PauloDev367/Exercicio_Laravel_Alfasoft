@@ -25,33 +25,30 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Nome</td>
-                                        <td>988888888</td>
-                                        <td>1</td>
-                                        <td>
-                                            <a href="{{ route('contacts.show', 1) }}"
-                                                class="btn btn-sm btn-outline-warning">
-                                                <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
-                                            <button class="btn btn-sm btn-outline-danger">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    @foreach ($contacts as $contact)
+                                        <tr>
+                                            <td>{{ $contact->id }}</td>
+                                            <td>{{ $contact->name }}</td>
+                                            <td>{{ $contact->contact }}</td>
+                                            <td>{{ $contact->email }}</td>
+                                            <td>
+                                                <a href="{{ route('contacts.show', $contact->id) }}"
+                                                    class="btn btn-sm btn-outline-warning">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                </a>
+                                                <button class="btn btn-sm btn-outline-danger">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
                                 </tbody>
                             </table>
                             <div class="mt-3">
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination">
-                                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                    </ul>
-                                </nav>
+                                <div class="pagination-area">
+                                    {{ $contacts->appends(request()->query())->links('pagination::bootstrap-4') }}
+                                </div>
                             </div>
                         </div>
                     </div>
