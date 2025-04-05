@@ -2,13 +2,47 @@
 
 namespace Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Contact;
+use App\Services\ContactService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ContactServiceTest extends TestCase
 {
     use RefreshDatabase;
+    protected ContactService $service;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->service = new ContactService();
+    }
+
+    /** @test */
+    public function it_returns_a_contact_by_id()
+    {
+        $contact = Contact::factory()->create();
+
+        $found = $this->service->getOne($contact->id);
+
+        $this->assertNotNull($found);
+        $this->assertEquals($contact->id, $found->id);
+        $this->assertEquals($contact->name, $found->name);
+        $this->assertEquals($contact->email, $found->email);
+        $this->assertEquals($contact->contact, $found->contact);
+    }
+
+    /** @test */
+    public function it_returns_paginated_contacts()
+    {
+        Contact::factory()->count(20)->create();
+
+        $result = $this->service->getAll();
+
+        $this->assertInstanceOf(\Illuminate\Contracts\Pagination\LengthAwarePaginator::class, $result);
+        $this->assertCount(15, $result);
+        $this->assertEquals(20, $result->total());
+    }
 
     /** @test */
     public function it_creates_a_contact_with_valid_data()
